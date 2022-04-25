@@ -1,0 +1,130 @@
+This is version 2 of the tool. 
+
+Our goals include:
+  - Create a GUI with the following fields
+      - Arrondissement
+      - Minimum Square Meter
+      - Max Price
+      - Furnished or not
+      - Renting or buying
+  - Using a GUI's button to launch a webscrapping with the input parameters.
+  - Using an other GUI's button to have specific market information with the input parameters.
+  
+How to rune the code:
+Launch the main file
+
+Main 
+
+  The main file is the center of our program. It's the bridge beetween the GUI and the webscrapping. 
+  Taking as input the parameters of the GUI and launch according webscraping operations.
+  Main returns the required dataframe both in the shell and as a csv file.
+  Main is also able to return some specific information to the GUI.
+
+  Functionnalities:
+  Launch the GUI, by importing it.
+
+  Function: user_scrapper
+  Input:    arons_list (list of arondissement to scrape)
+            pages (integer representing the number of pages you want)  (integer, by default = 100)
+            mode (str taking two possible value: 'buy' or 'rent' according to the user input, 'rent' by default)
+            furniture (boolean value representing if the user wants specifically furnished appartments, False by default)
+            min_sqm (int reprensenting the minimum area of the search, 0 by default)
+            max_p (int representing the maximum price of the search, 0 by default)
+  Output:   Data frame, displayed with print and as .csv file
+            
+  Function: user_average
+  Input:    arons_list (list of arondissement to scrape)
+            pages (integer representing the number of pages you want)  (integer, by default = 100)
+            mode (str taking two possible value: 'buy' or 'rent' according to the user input, 'rent' by default)
+            furniture (boolean value representing if the user wants specifically furnished appartments, False by default)
+            min_sqm (int reprensenting the minimum area of the search, 0 by default)
+  Output:   Return 3 variables to the GUI to be displayed:
+            avg_size (float with 2 decimal, representing the average area of the data given by scrapper)
+            avg_price (float with 2 decimal, representing the average price of the data given by scrapper)
+            avg_price_sqm (float with 2 decimal, representing the average price per square meter of the data given by scrapper).
+
+  Function: filters (This function is called by user_scrapper and user_average to filter the dataframe with specific criterias.)
+  Input:    df2 (the data frame to be filtered)
+            furniture (boolean value representing if the user wants specifically furnished appartments)
+            min_sqm (int reprensenting the minimum area of the search)
+            max_p (int representing the maximum price of the search)
+  Output:   df (the filtered panda data frame)
+
+
+GUI
+
+When running this file, a window will appear. In it you can input values for Arrondissement (this can be a list of values seperated by a comma), Square Meter, Max Price. 
+You can also check the boxes if you want a furnished appartment and if you want to buy instead of rent.
+When clicking the search button, you will generate a Dataframe with all the apts corresponding to the arrondissements you defined and if you checked the buying box.
+When clicking the average button, a new window will appear with the average square meter, price and price/sqm for the arrondissements you entered.
+
+  Function: search
+  This function runs the user_scrapper with the value input in the GUI.
+  
+  Function: average
+  This function runs the user_average with the value input in the GUI.
+  Output: A new windows with the value returned by user_average
+  
+  Function: list_of_arrons
+  Take the arrondissement input by the user and transform it in a list.
+  Output: List of arrondissments
+  
+  Function: options
+  Takes the options input by the user in the GUI
+  Output: mode (string reprensenting the user choice 'rent' or 'buy')
+          furn (boolean value representing if the user wants specifically furnished appartments)
+          min_sqm (int reprensenting the minimum area of the search, 0 if nothing is specified)
+          max_p (int representing the maximum price of the search, 0 if nothing is specified)
+
+
+Modularity
+
+  Function: get_webpages
+  Input:    sector (list of integers)
+            pages (integer representing the number of pages you want)  (integer, by default = 100)
+  Output:   URL_list (list of URL we need to webscrape)
+  
+  Function: get_postcode
+  Input:    sector (list of integers, representing the number of the arrondissement)
+  Output:   postcodes (string, representing the postcodes in a way that can be included in the URL)
+  
+Webscraping
+
+  Function: scraper
+  Input:    sector (list of integers)
+            "pages =" + integer (representing the number of pages you want)
+  Output:   Final Dataframe df
+  
+  Function: get_dataframe
+  Input:    apt_elems (list of bs4-tags of the website you are interested in)
+  Output:   Dataframe with the information put into columns
+
+Data_Exploitation
+
+  Function: cleaner
+  Input:    liste (of html-tags)
+  Output:   liste (without the intendation spaces)
+
+  Function: price_cleaner
+  Input:    price (of html-tags)
+  Output:   integer (price of the apt)
+
+  Function: sq_clean
+  Input:    title (title description)
+  Output:   float (sqm of the appartment)
+
+  Function: is_it_furniture
+  Input:    title (title description)
+  Output:   boolean (true if apt is furnished, false otherwise)
+
+  Function: how_many_room
+  Input:    title(title description)
+  Output:   room (list of how many rooms there are)
+
+  Function: location
+  Input:    title (title description)
+  Output:   integer (the arrondissement)
+
+  
+
+  
